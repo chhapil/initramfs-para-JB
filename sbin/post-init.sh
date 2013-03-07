@@ -151,19 +151,13 @@ else
 			/sbin/busybox rm /data/app/Superuser.apk
 			/sbin/busybox rm /system/app/Supersu.apk
 			/sbin/busybox rm /data/app/Supersu.apk
+			/sbin/busybox rm /system/app/*supersu*
+			/sbin/busybox rm /data/app/*supersu*
 			#/sbin/busybox cp /res/misc/Superuser.apk /system/app/Superuser.apk
-			/sbin/xzcat /res/misc/Superuser.apk.xz > /system/app/Superuser.apk
-			/sbin/busybox chown 0.0 /system/app/Superuser.apk
-			/sbin/busybox chmod 644 /system/app/Superuser.apk
+			/sbin/xzcat /res/misc/Superuser.apk.xz > /data/app/Superuser.apk
+			/sbin/busybox chown 0.0 /data/app/Superuser.apk
+			/sbin/busybox chmod 644 /data/app/Superuser.apk
 			/sbin/busybox mount /system -o remount,ro 
-		#Añadiendo CWMManager
-		
-			#/sbin/busybox rm /system/app/CWMManager.apk
-			#/sbin/busybox rm /data/dalvik-cache/*CWMManager.apk*
-			#/sbin/busybox rm /data/app/eu.chainfire.cfroot.cwmmanager*.apk
-			#/sbin/xzcat /res/misc/CWMManager.apk.xz > /system/app/CWMManager.apk
-			#/sbin/busybox chown 0.0 /system/app/CWMManager.apk
-			#/sbin/busybox chmod 644 /system/app/CWMManager.apk
 		
 		#Librerias para el BLN
 
