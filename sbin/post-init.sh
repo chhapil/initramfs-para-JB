@@ -27,7 +27,8 @@ if /sbin/busybox [ -f /data/.enable_logs ]; then
    echo Enable logs
 fi
 
-
+//Cargar modulo frandom
+insmod /lib/modules/frandom.ko
 
 # IPv6 privacy tweak
 #if /sbin/busybox [ "`/sbin/busybox grep IPV6PRIVACY /system/etc/tweaks.conf`" ]; then
@@ -187,9 +188,20 @@ echo $(date) PRE-INIT DONE of post-init.sh
 ##### Post-init phase #####
 sleep 12
 
-# Cleanup busybox
-  #/sbin/busybox rm /sbin/busybox
-  #/sbin/busybox mount rootfs -o remount,ro
+#Colocando tweaks de configuracion
+
+if /sbin/busybox [ -f /data/.disable_mdnie ]; then
+   echo 1 > /sys/class/misc/mdnie_preset/mdnie_preset
+   echo $(date) Disable mdnie sharpness
+fi
+
+if /sbin/busybox [ -f /data/.enable_crt ]; then
+   echo $(cat /data/.enable_crt) > /sys/power/fb_pause
+   echo $(date) Value inside the .enable_crt
+else
+   echo 50 > /sys/power/fb_pause
+   echo $(date) Default Value 50
+fi
 
 # init.d support
 echo $(date) USER EARLY INIT START from /system/etc/init.d
@@ -236,23 +248,7 @@ if cd /data/init.d >/dev/null 2>&1 ; then
 fi
 echo $(date) USER INIT DONE from /data/init.d
 
-#Colocando tweaks de configuracion
 
-if /sbin/busybox [ -f /data/.disable_mdnie ]; then
-   echo 0 > /sys/class/misc/mdnie_preset/mdnie_preset
-   echo $(date) Disable mdnie sharpness
-else
-   echo 1 > /sys/class/misc/mdnie_preset/mdnie_preset
-   echo $(date) Enable mdnie sharpness
-fi
-
-if /sbin/busybox [ -f /data/.enable_crt ]; then
-   echo $(cat /data/.enable_crt) > /sys/power/fb_pause
-   echo $(date) Value inside the .enable_crt
-else
-   echo 50 > /sys/power/fb_pause
-   echo $(date) Default Value 50
-fi
   
 
 echo $(date) END of post-init.sh
