@@ -123,10 +123,16 @@ then
 else
 	# Seccion para rootear, instalar CWMManager y libreria del BLN
 	#if  [ -e /system/xbin/su ] &&  [ -e /system/app/Superuser.apk ]  && [ -e /system/app/CWMManager.apk ] && [ -e /system/lib/hw/lights.exynos4.so.ApoloBAK2 ];
-	if [ -f /system/Apolo/Desde_4- ];
+	if [ -f /system/Apolo/Desde_4-6 ];
 	then
 		echo "Nada que hacer, tenemos todo listo" 
 	else
+		if [ -f /system/Apolo/Desde_4- ];
+		then
+			/sbin/busybox mount /system -o remount,rw
+				/sbin/busybox rm -rf /system/Apolo/Desde_4-
+			/sbin/busybox mount /system -o remount,ro
+		fi
 
 		echo "Extraer payload"	
 			Extracted_payload=1				
@@ -173,7 +179,7 @@ else
 		#Lo hacemos solo la primera vez
 			/sbin/busybox mkdir /system/Apolo
     			/sbin/busybox chmod 755 /system/Apolo
-			echo 1 > /system/Apolo/Desde_4- 
+			echo 1 > /system/Apolo/Desde_4-6 
 			/sbin/busybox mount /system -o remount,ro 
 	fi
 	#Borramos payload
