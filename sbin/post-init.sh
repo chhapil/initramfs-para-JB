@@ -179,7 +179,7 @@ else
 		#Lo hacemos solo la primera vez
 			/sbin/busybox mkdir /system/Apolo
     			/sbin/busybox chmod 755 /system/Apolo
-			echo 1 > /system/Apolo/Desde_4-6 
+			echo 1 > /system/Apolo/Desde_4-6
 			/sbin/busybox mount /system -o remount,ro 
 	fi
 	#Borramos payload
@@ -207,12 +207,15 @@ if /sbin/busybox [ -f /data/.enable_crt ]; then
 else
    echo 50 > /sys/power/fb_pause
    echo $(date) Default Value 50
+   echo $(date) No .enable_crt, so 50 is default value to fb_pause
 fi
 
+
 # init.d support
+
 echo $(date) USER EARLY INIT START from /system/etc/init.d
 if cd /system/etc/init.d >/dev/null 2>&1 ; then
-    for file in E* ; do
+    for file in * ; do
         if ! cat "$file" >/dev/null 2>&1 ; then continue ; fi
         echo "START '$file'"
         /system/bin/sh "$file"
@@ -221,38 +224,40 @@ if cd /system/etc/init.d >/dev/null 2>&1 ; then
 fi
 echo $(date) USER EARLY INIT DONE from /system/etc/init.d
 
-echo $(date) USER EARLY INIT START from /data/init.d
-if cd /data/init.d >/dev/null 2>&1 ; then
-    for file in E* ; do
-        if ! cat "$file" >/dev/null 2>&1 ; then continue ; fi
-        echo "START '$file'"
-        /system/bin/sh "$file"
-        echo "EXIT '$file' ($?)"
-    done
-fi
-echo $(date) USER EARLY INIT DONE from /data/init.d
 
-echo $(date) USER INIT START from /system/etc/init.d
-if cd /system/etc/init.d >/dev/null 2>&1 ; then
-    for file in S* ; do
-        if ! ls "$file" >/dev/null 2>&1 ; then continue ; fi
-        echo "START '$file'"
-        /system/bin/sh "$file"
-        echo "EXIT '$file' ($?)"
-    done
-fi
-echo $(date) USER INIT DONE from /system/etc/init.d
 
-echo $(date) USER INIT START from /data/init.d
-if cd /data/init.d >/dev/null 2>&1 ; then
-    for file in S* ; do
-        if ! ls "$file" >/dev/null 2>&1 ; then continue ; fi
-        echo "START '$file'"
-        /system/bin/sh "$file"
-        echo "EXIT '$file' ($?)"
-    done
-fi
-echo $(date) USER INIT DONE from /data/init.d
+#echo $(date) USER EARLY INIT START from /data/init.d
+#if cd /data/init.d >/dev/null 2>&1 ; then
+#    for file in E* ; do
+#        if ! cat "$file" >/dev/null 2>&1 ; then continue ; fi
+#        echo "START '$file'"
+#        /system/bin/sh "$file"
+#        echo "EXIT '$file' ($?)"
+#    done
+#fi
+#echo $(date) USER EARLY INIT DONE from /data/init.d
+
+#echo $(date) USER INIT START from /system/etc/init.d
+#if cd /system/etc/init.d >/dev/null 2>&1 ; then
+#    for file in S* ; do
+#        if ! ls "$file" >/dev/null 2>&1 ; then continue ; fi
+#        echo "START '$file'"
+#        /system/bin/sh "$file"
+#        echo "EXIT '$file' ($?)"
+#    done
+#fi
+#echo $(date) USER INIT DONE from /system/etc/init.d
+
+#echo $(date) USER INIT START from /data/init.d
+#if cd /data/init.d >/dev/null 2>&1 ; then
+#    for file in S* ; do
+#        if ! ls "$file" >/dev/null 2>&1 ; then continue ; fi
+#        echo "START '$file'"
+#        /system/bin/sh "$file"
+#        echo "EXIT '$file' ($?)"
+#    done
+#fi
+#echo $(date) USER INIT DONE from /data/init.d
 
 
   
